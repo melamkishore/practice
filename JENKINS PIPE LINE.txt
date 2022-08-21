@@ -1,0 +1,263 @@
+
+#!/bin/bash
+sudo su
+yum update -y
+yum install httpd -y
+cd /var/www/html
+echo "Load balance-1">index.html
+service httpd start
+chkconfig httpd on
+
+
+jenkins commands:
+
+sudo apt update
+sudo apt install openjdk-8-jdk -y
+java -version
+sudo apt-get install -y git maven
+git --version
+mvn --version
+wget https://get.jenkins.io/war-stable/2.346.3/jenkins.war
+
+ls
+java -jar jenkins.war
+f2a22338602a40ab93813e41d35419e9
+
+
+TOMCAT IBSTALLATION ON QA:
+sudo apt-get update
+sudo apt-get install -y tomcat8
+sudo apt-get install tomcat8-admin
+cd /etc/tomcat8/
+ls
+sudo vim tomcat-users.xml
+<user username="training" password="sunilsunil" roles="manager-script,manager status.manager-gui"/>
+sudo service tomcat8 restart
+
+TOMACAT INSTALLATION ON PA:
+sudo apt-get update
+sudo apt-get install -y tomcat8
+sudo apt-get install tomcat8-admin
+cd /etc/tomcat8/
+ls
+sudo vim tomcat-users.xml
+<user username="learning" password="sunilsunil" roles="manager-script,manager status.manager-gui"/>
+sudo service tomcat8 restart
+
+rep url:https://github.com/sunildevops77/maven.git
+
+
+PIPE LINE :
+
+1.CONTINUOS DOWNLOAD:
+
+ALLOCATE NODE  (bilt-in)
+stage (continuos download)
+git   (git 'https://github.com/sunildevops77/maven.git)
+
+
+node('built-in') 
+{
+    stage('Continuosdownload') 
+{
+   git 'https://github.com/sunildevops77/maven.git'
+}
+
+
+2.CONTINUOS BUILD:
+
+ shell script  (mvn package)
+
+
+ stage('Continuosbuild') 
+{
+   sh 'mvn package'
+}
+
+
+NOTE:
+Building war: /home/ubuntu/.jenkins/workspace/ScriptedPipeline/webapp/target/webapp.war (WAR FILE LOCATION AFTER BUILD)
+
+
+password less connection between dev to qa:
+
+CONNECT TO QA:
+sudo passwd ubuntu
+ubuntu
+cd /etc/ssh
+ls
+sudo vim  sshd_config
+sudo service ssh restart
+cd /var/lib
+ls -ld tomcat8
+sudo chmod -R o+w tomcat8/
+
+password less connection between dev to pa:
+
+CONNECT TO PA:
+sudo passwd ubuntu
+ubuntu
+cd /etc/ssh
+ls
+sudo vim  sshd_config
+sudo service ssh restart
+cd /var/lib
+ls -ld tomcat8
+sudo chmod -R o+w tomcat8/
+
+
+GENERATE KEYS IN DEV INSTANCE: 
+
+CONNECT TO DEV:
+ssh-keygen
+ssh-copy-id ubuntu@privateip of qa
+ssh-copy-id ubuntu@172.31.39.146
+ssh ubuntu@172.31.39.146 (connect to dev to  qa)
+exit
+
+CONNECT TO DEV:
+ssh-copy-id ubuntu@172.31.34.33   (private ip of pa
+ssh ubuntu@172.31.34.33  (connect to dev to   pa)
+exit
+
+
+copy war file from DEV TO QA INSTANCE:
+
+scp source destination
+
+scp  /home/ubuntu/.jenkins/workspace/ScriptedPipeline/webapp/target/webapp.war  ubuntu@172.31.32.124:/var/lib/tomcat8/webapps/qaenv.war 
+
+CONTINUOS DEPLOYMENT:
+
+ stage('Continuosdeployment') 
+{
+ sh 'scp /home/ubuntu/.jenkins/workspace/Scripted/webapp/target/webapp.war ubuntu@172.31.47.117:/var/lib/tomcat8/webapps/qaenv.war'
+}
+
+CONTINUOS TESTING:
+
+excuate shell (echo "testing passed")
+
+stage('Continuostesting') 
+{ 
+sh 'echo "Testing passesd"'
+}
+
+CONTINUOS DELIVERY:
+
+stage('Continuosdelivery') 
+{ 
+ sh 'scp /home/ubuntu/.jenkins/workspace/Scripted/webapp/target/webapp.war ubuntu@172.31.33.181:/var/lib/tomcat8/webapps/proden.war'
+}
+
+
+FINAL CODE:
+
+node('built-in') 
+{
+    stage('Continuosdownload') 
+{
+   git 'https://github.com/sunildevops77/maven.git'
+}
+ stage('Continuosbuild') 
+{
+   sh 'mvn package'
+}
+ stage('Continuosdeployment') 
+{
+ sh 'scp /home/ubuntu/.jenkins/workspace/Scripted/webapp/target/webapp.war ubuntu@172.31.47.117:/var/lib/tomcat8/webapps/qaenv.war'
+}
+stage('Continuostesting') 
+{ 
+sh 'echo "Testing passesd"'
+}
+stage('Continuosdelivery') 
+{ 
+ sh 'scp /home/ubuntu/.jenkins/workspace/Scripted/webapp/target/webapp.war ubuntu@172.31.33.181:/var/lib/tomcat8/webapps/proden.war'
+}
+}
+
+
+EX:2
+SCRIPT
+
+node('built-in') 
+{
+    stage('Continuosdownload') 
+{
+   git 'https://github.com/sunildevops77/maven.git'
+}
+ stage('Continuosbuild') 
+{
+   sh 'mvn package'
+}
+ stage('Continuosdeployment') 
+{
+ sh 'scp /home/ubuntu/.jenkins/workspace/kishore/webapp/target/webapp.war ubuntu@172.31.47.117:/var/lib/tomcat8/webapps/qaenv.war'
+}
+stage('Continuostesting') 
+{ 
+sh 'echo "Testing passesd"'
+}
+stage('Continuosdelivery') 
+{ 
+ sh 'scp /home/ubuntu/.jenkins/workspace/kishore/webapp/target/webapp.war ubuntu@172.31.33.181:/var/lib/tomcat8/webapps/proden.war'
+}
+}
+
+
+
+
+SLEEVE MACHINE
+
+ssh -i "sleevepemfile.pem" ubuntu@ec2-13-233-216-161.ap-south-1.compute.amazonaws.com
+
+
+sudo apt-get update
+sudo apt install openjdk-8-jdk -y
+java -version
+whoami
+
+sudo passwd ubuntu
+ubuntu
+cd /etc/ssh
+ls
+sudo vim  sshd_config
+sudo service ssh restart
+
+LETS GO DEV INSTANCE:
+
+ssh ubuntu@privateip of sleeve
+
+ssh ubuntu@172.31.32.58
+ubuntu
+exit
+
+LETS GENERATE KEYS IN DEV MACHINE
+
+ssh-keygen
+ssh-copy-id ubuntu@privateip sleeve
+
+ssh-copy-id ubuntu@172.31.32.58
+
+ubuntu
+
+ssh ubuntu@172.31.32.58
+
+sudo wget http://172.31.46.160:8080/jnlpJars/slave.jar
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

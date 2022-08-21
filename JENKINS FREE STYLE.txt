@@ -1,0 +1,74 @@
+
+#!/bin/bash
+sudo su
+yum update -y
+yum install httpd -y
+cd /var/www/html
+echo "Amazon web service-1">index.html
+service httpd start
+chkconfig httpd on
+
+
+java,git,maven and jenkins installation in dev instance :
+
+sudo apt update
+sudo apt install openjdk-8-jdk -y
+java -version
+sudo apt-get install -y git maven
+git --version
+mvn --version
+wget https://get.jenkins.io/war-stable/2.346.3/jenkins.war
+ls
+java -jar jenkins.war
+cf71d5cfcc4d48f58ecf9ad601a0f0f6
+http://13.126.185.22:8080
+
+Tomcat installation in qa instance:
+
+sudo apt-get update
+sudo apt-get install -y tomcat8
+sudo apt-get install tomcat8-admin
+cd /etc/tomcat8/
+ls
+sudo vim tomcat-users.xml
+<user username="training" password="sunilsunil" roles="manager-script,manager status.manager-gui"/>
+sudo service tomcat8 restart
+
+Tomcat installation in pa instance:
+
+sudo apt-get update
+sudo apt-get install -y tomcat8
+sudo apt-get install tomcat8-admin
+cd /etc/tomcat8/
+ls
+sudo vim tomcat-users.xml
+<user username="learning" password="sunilsunil" roles="manager-script,manager status.manager-gui"/>
+sudo service tomcat8 restart
+
+
+Free style project:
+
+
+rep url:https://github.com/sunildevops77/maven.git
+/home/ubuntu/.jenkins/workspace/Freestyle 2( war file location)
+
+**/*.war
+qaenv
+http://172.31.47.117:8080
+ 
+For testing :
+
+rep url:https://github.com/sunildevops77/TestingNew.git
+
+prodenv
+
+http://172.31.32.255:8080
+
+
+
+
+
+
+
+
+
