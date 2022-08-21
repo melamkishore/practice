@@ -1,0 +1,26 @@
+
+node('built-in') 
+{
+    stage('Continuosdownload') 
+{
+   git 'https://github.com/sunildevops77/maven.git'
+}
+ stage('Continuosbuild') 
+{
+   sh 'mvn package'
+}
+ stage('Continuosdeployment') 
+{
+ sh 'scp /home/ubuntu/.jenkins/workspace/Scripted/webapp/target/webapp.war ubuntu@172.31.47.117:/var/lib/tomcat8/webapps/qaenv.war'
+}
+stage('Continuostesting') 
+{ 
+sh 'echo "Testing passesd"'
+}
+stage('Continuosdelivery') 
+{ 
+ sh 'scp /home/ubuntu/.jenkins/workspace/Scripted/webapp/target/webapp.war ubuntu@172.31.33.181:/var/lib/tomcat8/webapps/proden.war'
+}
+}
+
+
